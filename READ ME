@@ -1,0 +1,34 @@
+FinTrack - Financial Budget App
+
+Installation Instructions:
+	Make sure the tkinter library is installed using:
+		pip install tk
+	Pandas must be installed:
+		pip install pandas
+	Sqlite3 database must be installed:
+		pip install sqlite
+	Some of these might already come preinstalled with Python.
+	Make sure finance.db is in the same folder as Finance App.py
+
+Operating Instructions:
+	Very self explanatory, just run the program and there will be navigation buttons 	
+	as well as exit buttons.
+	
+List of Files:
+	There is only one file needed.:
+		Finance App.py
+
+Contact Information:
+	https://github.com/jgomez5437
+
+A list of known bugs:
+	Categories get finniky once you add the 5th category.
+
+Troubleshooting Instructions:
+	Make sure you have installed all required libraries found in the above					
+	installation instructions.
+	
+	If the above bug happens, restart the program after adding or removing that
+	category.
+	
+
