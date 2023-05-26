@@ -22,7 +22,8 @@ Contact Information:
 	https://github.com/jgomez5437
 
 A list of known bugs:
-	Categories get finniky once you add the 5th category.
+	Categories gets finniky once you add the 5th category.
+	Category entry boxes overlaps transaction section.
 
 Troubleshooting Instructions:
 	Make sure you have installed all required libraries found in the above					
