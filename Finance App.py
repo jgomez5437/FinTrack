@@ -29,7 +29,7 @@ def raise_frame(frame):
         budget_frame.pack_forget()
         frame.tkraise()
         frame.pack()
-"""Home Screen"""
+"""Home Screen """
 #title label - home screen
 title_label = tk.Label(root_frame, text="FinTrack", font=("Arial", 40), fg="darkblue", bg="darkgreen")
 title_label.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
