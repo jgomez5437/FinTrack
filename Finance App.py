@@ -21,14 +21,24 @@ root_frame.configure(background="darkgreen")
 #budget frame
 budget_frame = tk.Frame(root, bg="darkgreen")
 budget_frame.pack(fill="both", expand=True)
+#transaction frame
+transaction_frame = tk.Frame(root, bg="darkgreen")
+transaction_frame.pack(fill="both", expand=True)
 #function to switch between frames
 def raise_frame(frame):
     if frame == budget_frame:
         root_frame.pack_forget()
+        transaction_frame.pack_forget()
+        frame.tkraise()
+        frame.pack(fill="both", expand=True)
+    elif frame == transaction_frame:
+        root_frame.pack_forget()
+        budget_frame.pack_forget()
         frame.tkraise()
         frame.pack(fill="both", expand=True)
     elif frame == root_frame:
         budget_frame.pack_forget()
+        transaction_frame.pack_forget()
         frame.tkraise()
         frame.pack()
 """Home Screen """
@@ -271,21 +281,21 @@ add_category_button = tk.Button(budget_frame, text="Add Category", font=("Arial"
 add_category_button.place(x=90, y=150)
 """Transactions Section"""
 #Transaction name label
-transaction_name_label = tk.Label(budget_frame, text="Transaction Name:", font=("Arial", 15), fg="white", bg="darkgreen")
+transaction_name_label = tk.Label(transaction_frame, text="Transaction Name:", font=("Arial", 15), fg="white", bg="darkgreen")
 transaction_name_label.place(x=600, y=220)
 #Transaction name entry
-transaction_name_entry = tk.Entry(budget_frame, font=("Arial", 13))
+transaction_name_entry = tk.Entry(transaction_frame, font=("Arial", 13))
 transaction_name_entry.place(x=600, y=250)
 #Amount label
-transaction_amount_label = tk.Label(budget_frame, text="Amount:", font=("Arial", 15), fg="white", bg="darkgreen")
+transaction_amount_label = tk.Label(transaction_frame, text="Amount:", font=("Arial", 15), fg="white", bg="darkgreen")
 transaction_amount_label.place(x=600, y=280)
 #Transaction amount entry
-transaction_amount_entry = tk.Entry(budget_frame, font=("Arial", 13))
+transaction_amount_entry = tk.Entry(transaction_frame, font=("Arial", 13))
 transaction_amount_entry.place(x=600, y=310)
 #Empty list to store the transaction labels
 transaction_labels = []
 #Transactions label
-transactions_label = tk.Label(budget_frame, text="Transactions:", font=("Arial", 15), fg="white", bg="darkgreen")
+transactions_label = tk.Label(transaction_frame, text="Transactions:", font=("Arial", 15), fg="white", bg="darkgreen")
 transactions_label.place(x=600, y=380)
 
 #Function that displays transactions
@@ -341,9 +351,11 @@ def add_transaction(category):
     transaction_amount_entry.delete(0, tk.END)
     display_categories()
 #Scroll box for the transactions
-transaction_display = scrolledtext.ScrolledText(budget_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=8)
+transaction_display = scrolledtext.ScrolledText(transaction_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=8)
 transaction_display.place(x=600, y=410)
-
+#Button to move to transactions frame
+transaction_frame_b = tk.Button(transaction_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", command=raise_frame(transaction_frame))
+transaction_frame_b.place(x=600, y=410)
 #Function to remove transactions
 def remove_transaction(category, name, amount):
     #Delete the transaction from the database
