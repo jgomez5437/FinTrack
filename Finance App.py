@@ -10,7 +10,7 @@ import sqlite3
 connection = sqlite3.connect('finance.db')
 #Create ik instance and root frame
 root = tk.Tk()
-root.reziable(False, False)
+root.resizable(False, False)
 root_frame = tk.Frame(root)
 root_frame.pack(fill="both", expand=True)
 root.title("FinTrack")
@@ -39,7 +39,7 @@ title_label.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 sentence_label = tk.Label(root_frame, text="Be Smart With Your Money", font=("Arial", 20), fg="darkblue", bg="darkgreen")
 sentence_label.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 #enter button
-enter_button = tk.Button(root_frame, text="Enter", font=("Arial",20), fg="darkblue", bg="white", padx=20, pady=10, command=lambda: raise_frame(budget_frame))
+enter_button = tk.Button(root_frame, text="Enter Budget", font=("Arial",20), fg="darkblue", bg="white", padx=20, pady=10, command=lambda: raise_frame(budget_frame))
 enter_button.place(relx=0.4, rely=0.6, anchor=tk.CENTER)
 #exit button
 exit_button = tk.Button(root_frame, text="Exit", font=("Arial",20), fg="darkblue", bg="white", padx=20, pady=10, command=lambda: root.quit())
@@ -371,7 +371,7 @@ def handle_add_transaction():
     category = selected_category.get()  #Retrieve the selected category value
     add_transaction(category)
     display_transactions()
-add_transaction_button = tk.Button(budget_frame, text="Add Transaction", font=("Arial", 10), width=10, bg="white", command=handle_add_transaction)
+add_transaction_button = tk.Button(budget_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
 add_transaction_button.place(x=600, y=340)
 #will initially update the remaining income
 calculate_remaining_income()
