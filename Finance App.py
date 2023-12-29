@@ -14,6 +14,7 @@ root_frame = tk.Frame(root)
 root_frame.pack(fill="both", expand=True)
 root.title("FinTrack")
 root.geometry("1050x600")
+root.resizable(False, False)
 root.configure(background="darkgreen")
 root_frame.configure(background="darkgreen")
 #budget frame
