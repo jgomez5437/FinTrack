@@ -10,6 +10,7 @@ import sqlite3
 connection = sqlite3.connect('finance.db')
 #Create ik instance and root frame
 root = tk.Tk()
+root.reziable(False, False)
 root_frame = tk.Frame(root)
 root_frame.pack(fill="both", expand=True)
 root.title("FinTrack")
