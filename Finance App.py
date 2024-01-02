@@ -31,7 +31,7 @@ def raise_frame(frame):
         transaction_frame.pack_forget()
         frame.tkraise()
         frame.pack(fill="both", expand=True)
-    elif frame == transaction_frame:
+    elif frame == transaction_frame: 
         root_frame.pack_forget()
         budget_frame.pack_forget()
         frame.tkraise()
@@ -40,7 +40,7 @@ def raise_frame(frame):
         budget_frame.pack_forget()
         transaction_frame.pack_forget()
         frame.tkraise()
-        frame.pack()
+        frame.pack(fill="both", expand=True)
 """Home Screen """
 #title label - home screen
 title_label = tk.Label(root_frame, text="FinTrack", font=("Arial", 40), fg="darkblue", bg="darkgreen")
@@ -296,7 +296,7 @@ transaction_amount_entry.place(x=600, y=310)
 transaction_labels = []
 #Transactions label
 transactions_label = tk.Label(transaction_frame, text="Transactions:", font=("Arial", 15), fg="white", bg="darkgreen")
-transactions_label.place(x=600, y=380)
+transactions_label.place(x=100, y=50)
 
 #Function that displays transactions
 def display_transactions():
@@ -351,10 +351,10 @@ def add_transaction(category):
     transaction_amount_entry.delete(0, tk.END)
     display_categories()
 #Scroll box for the transactions
-transaction_display = scrolledtext.ScrolledText(transaction_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=8)
-transaction_display.place(x=600, y=410)
+transaction_display = scrolledtext.ScrolledText(transaction_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
+transaction_display.place(x=100, y=80)
 #Button to move to transactions frame
-transaction_frame_b = tk.Button(transaction_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", command=raise_frame(transaction_frame))
+transaction_frame_b = tk.Button(budget_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", command=lambda: raise_frame(transaction_frame))
 transaction_frame_b.place(x=600, y=410)
 #Function to remove transactions
 def remove_transaction(category, name, amount):
@@ -377,14 +377,14 @@ def remove_transaction(category, name, amount):
     #Redisplay the transactions
     display_transactions()
     display_categories()
-    
 #Function to handle the button click event to add a transaction
 def handle_add_transaction():
     category = selected_category.get()  #Retrieve the selected category value
     add_transaction(category)
     display_transactions()
-add_transaction_button = tk.Button(budget_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
+add_transaction_button = tk.Button(transaction_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
 add_transaction_button.place(x=600, y=340)
+#back button for the transaction screen
 #will initially update the remaining income
 calculate_remaining_income()
 #Display all transactions for each category
