@@ -316,7 +316,7 @@ def display_transactions():
         amount = row['amount']
         transaction_display.insert(tk.END, "Category: {} | Name: {} | Amount: {:.2f}".format(category, name, amount))
         #Create a remove button for each transaction
-        remove_button = tk.Button(budget_frame, text="Remove", font=("Arial", 8), width=3, bg="white", command=lambda c=category, n=name, a=amount: remove_transaction(c, n, a))
+        remove_button = tk.Button(transaction_frame, text="Remove", font=("Arial", 8), width=6, bg="white", command=lambda c=category, n=name, a=amount: remove_transaction(c, n, a))
         transaction_display.window_create(tk.END, window=remove_button)
         transaction_display.insert(tk.END, "\n")
 #Function that adds transactions to GUI and database
