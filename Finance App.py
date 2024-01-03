@@ -64,10 +64,10 @@ budget_title.place(x=40, y=40, anchor="nw")
 """Income Section"""
 #income
 income_title = tk.Label(budget_frame, text="Income:", font=("Arial", 15), fg="white", bg="darkgreen")
-income_title.place(x=600, y=20)
+income_title.place(x=600, y=190)
 #display income
 current_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white",bg="darkgreen")
-current_income_label.place(x=600, y=50)
+current_income_label.place(x=600, y=220)
 #this takes the last inputted income from db and displays it in current income label
 current_income = pd.read_sql('SELECT amount FROM income ORDER BY id DESC LIMIT 1', connection)
 if not current_income.empty:
@@ -80,7 +80,7 @@ def show_error_message(message):
     messagebox.showerror("Error", message)
 #label to display the remaining income
 remaining_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white", bg="darkgreen")
-remaining_income_label.place(x=600, y=150)
+remaining_income_label.place(x=600, y=310)
 #Function to calculate the remaining income
 def save_income():
     income = income_entry.get().strip()
@@ -127,10 +127,10 @@ def calculate_remaining_income():
     remaining_income_label.config(text="Remaining Income: ${:.2f}".format(remaining_income))
 #save button
 save_button = tk.Button(budget_frame, text="Save", font=("Arial", 10), width=6, bg="white", command=save_income)
-save_button.place(x=735, y=76)
+save_button.place(x=735, y=250)
 #Entry for user to enter the income
 income_entry = tk.Entry(budget_frame, width=15)
-income_entry.place(x=600, y=80)
+income_entry.place(x=600, y=250)
 income_entry.bind("<Return>", save_income)
 #Function that will hide and show the income entry and save button
 def toggle_income_entry():
@@ -139,12 +139,12 @@ def toggle_income_entry():
         save_button.place_forget()
         income_button.config(text="Edit Income")
     else:
-        income_entry.place(x=600, y=80)
-        save_button.place(x=735, y=76)
+        income_entry.place(x=600, y=250)
+        save_button.place(x=735, y=250)
         income_button.config(text="Hide")
 #Income save/hide button
-income_button = tk.Button(budget_frame, text="Hide", font=("Arial", 10), width=7, bg="white", command=toggle_income_entry)
-income_button.place(x=600, y=110)
+income_button = tk.Button(budget_frame, text="Hide", font=("Arial", 10), width=8, bg="white", command=toggle_income_entry)
+income_button.place(x=600, y=280)
 """Category Section"""
 #Category frame
 category_frame = tk.Frame(budget_frame, bg="darkgreen")
@@ -181,9 +181,11 @@ if not category_names:
 selected_category = tk.StringVar(root)
 selected_category.set(category_names[0])  #Set the default value
 #OptionMenu widget
-category_dropdown = tk.OptionMenu(budget_frame, selected_category, *category_names)
+category_dropdown = tk.OptionMenu(transaction_frame, selected_category, *category_names)
 category_dropdown.place(x=600, y=190)
-
+#category label for options
+category_indicator = tk.Label(transaction_frame, text="Choose category:", font=("Arial", 15), fg="white", bg="darkgreen")
+category_indicator.place(x=600, y=160)
 #Function to update the dropdown menu options for transactions
 def update_transaction_options():
     #Fetch the budget categories from the database
@@ -385,6 +387,8 @@ def handle_add_transaction():
 add_transaction_button = tk.Button(transaction_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
 add_transaction_button.place(x=600, y=340)
 #back button for the transaction screen
+trans_back_button = tk.Button(transaction_frame, text="Back To Budget", font=("Arial", 10), width=11, bg="white", command=lambda: raise_frame(budget_frame))
+trans_back_button.place(x=600, y=100)
 #will initially update the remaining income
 calculate_remaining_income()
 #Display all transactions for each category
