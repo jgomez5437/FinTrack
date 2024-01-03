@@ -21,16 +21,26 @@ root_frame.configure(background="darkgreen")
 #budget frame
 budget_frame = tk.Frame(root, bg="darkgreen")
 budget_frame.pack(fill="both", expand=True)
+#transaction frame
+transaction_frame = tk.Frame(root, bg="darkgreen")
+transaction_frame.pack(fill="both", expand=True)
 #function to switch between frames
 def raise_frame(frame):
     if frame == budget_frame:
         root_frame.pack_forget()
+        transaction_frame.pack_forget()
+        frame.tkraise()
+        frame.pack(fill="both", expand=True)
+    elif frame == transaction_frame: 
+        root_frame.pack_forget()
+        budget_frame.pack_forget()
         frame.tkraise()
         frame.pack(fill="both", expand=True)
     elif frame == root_frame:
         budget_frame.pack_forget()
+        transaction_frame.pack_forget()
         frame.tkraise()
-        frame.pack()
+        frame.pack(fill="both", expand=True)
 """Home Screen """
 #title label - home screen
 title_label = tk.Label(root_frame, text="FinTrack", font=("Arial", 40), fg="darkblue", bg="darkgreen")
@@ -54,10 +64,10 @@ budget_title.place(x=40, y=40, anchor="nw")
 """Income Section"""
 #income
 income_title = tk.Label(budget_frame, text="Income:", font=("Arial", 15), fg="white", bg="darkgreen")
-income_title.place(x=600, y=20)
+income_title.place(x=600, y=190)
 #display income
 current_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white",bg="darkgreen")
-current_income_label.place(x=600, y=50)
+current_income_label.place(x=600, y=220)
 #this takes the last inputted income from db and displays it in current income label
 current_income = pd.read_sql('SELECT amount FROM income ORDER BY id DESC LIMIT 1', connection)
 if not current_income.empty:
@@ -70,7 +80,7 @@ def show_error_message(message):
     messagebox.showerror("Error", message)
 #label to display the remaining income
 remaining_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white", bg="darkgreen")
-remaining_income_label.place(x=600, y=150)
+remaining_income_label.place(x=600, y=310)
 #Function to calculate the remaining income
 def save_income():
     income = income_entry.get().strip()
@@ -117,10 +127,10 @@ def calculate_remaining_income():
     remaining_income_label.config(text="Remaining Income: ${:.2f}".format(remaining_income))
 #save button
 save_button = tk.Button(budget_frame, text="Save", font=("Arial", 10), width=6, bg="white", command=save_income)
-save_button.place(x=735, y=76)
+save_button.place(x=735, y=250)
 #Entry for user to enter the income
 income_entry = tk.Entry(budget_frame, width=15)
-income_entry.place(x=600, y=80)
+income_entry.place(x=600, y=250)
 income_entry.bind("<Return>", save_income)
 #Function that will hide and show the income entry and save button
 def toggle_income_entry():
@@ -129,12 +139,12 @@ def toggle_income_entry():
         save_button.place_forget()
         income_button.config(text="Edit Income")
     else:
-        income_entry.place(x=600, y=80)
-        save_button.place(x=735, y=76)
+        income_entry.place(x=600, y=250)
+        save_button.place(x=735, y=250)
         income_button.config(text="Hide")
 #Income save/hide button
-income_button = tk.Button(budget_frame, text="Hide", font=("Arial", 10), width=7, bg="white", command=toggle_income_entry)
-income_button.place(x=600, y=110)
+income_button = tk.Button(budget_frame, text="Hide", font=("Arial", 10), width=8, bg="white", command=toggle_income_entry)
+income_button.place(x=600, y=280)
 """Category Section"""
 #Category frame
 category_frame = tk.Frame(budget_frame, bg="darkgreen")
@@ -171,9 +181,11 @@ if not category_names:
 selected_category = tk.StringVar(root)
 selected_category.set(category_names[0])  #Set the default value
 #OptionMenu widget
-category_dropdown = tk.OptionMenu(budget_frame, selected_category, *category_names)
+category_dropdown = tk.OptionMenu(transaction_frame, selected_category, *category_names)
 category_dropdown.place(x=600, y=190)
-
+#category label for options
+category_indicator = tk.Label(transaction_frame, text="Choose category:", font=("Arial", 15), fg="white", bg="darkgreen")
+category_indicator.place(x=600, y=160)
 #Function to update the dropdown menu options for transactions
 def update_transaction_options():
     #Fetch the budget categories from the database
@@ -271,22 +283,22 @@ add_category_button = tk.Button(budget_frame, text="Add Category", font=("Arial"
 add_category_button.place(x=90, y=150)
 """Transactions Section"""
 #Transaction name label
-transaction_name_label = tk.Label(budget_frame, text="Transaction Name:", font=("Arial", 15), fg="white", bg="darkgreen")
+transaction_name_label = tk.Label(transaction_frame, text="Transaction Name:", font=("Arial", 15), fg="white", bg="darkgreen")
 transaction_name_label.place(x=600, y=220)
 #Transaction name entry
-transaction_name_entry = tk.Entry(budget_frame, font=("Arial", 13))
+transaction_name_entry = tk.Entry(transaction_frame, font=("Arial", 13))
 transaction_name_entry.place(x=600, y=250)
 #Amount label
-transaction_amount_label = tk.Label(budget_frame, text="Amount:", font=("Arial", 15), fg="white", bg="darkgreen")
+transaction_amount_label = tk.Label(transaction_frame, text="Amount:", font=("Arial", 15), fg="white", bg="darkgreen")
 transaction_amount_label.place(x=600, y=280)
 #Transaction amount entry
-transaction_amount_entry = tk.Entry(budget_frame, font=("Arial", 13))
+transaction_amount_entry = tk.Entry(transaction_frame, font=("Arial", 13))
 transaction_amount_entry.place(x=600, y=310)
 #Empty list to store the transaction labels
 transaction_labels = []
 #Transactions label
-transactions_label = tk.Label(budget_frame, text="Transactions:", font=("Arial", 15), fg="white", bg="darkgreen")
-transactions_label.place(x=600, y=380)
+transactions_label = tk.Label(transaction_frame, text="Transactions:", font=("Arial", 15), fg="white", bg="darkgreen")
+transactions_label.place(x=100, y=50)
 
 #Function that displays transactions
 def display_transactions():
@@ -341,9 +353,11 @@ def add_transaction(category):
     transaction_amount_entry.delete(0, tk.END)
     display_categories()
 #Scroll box for the transactions
-transaction_display = scrolledtext.ScrolledText(budget_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=8)
-transaction_display.place(x=600, y=410)
-
+transaction_display = scrolledtext.ScrolledText(transaction_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
+transaction_display.place(x=100, y=80)
+#Button to move to transactions frame
+transaction_frame_b = tk.Button(budget_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", command=lambda: raise_frame(transaction_frame))
+transaction_frame_b.place(x=600, y=410)
 #Function to remove transactions
 def remove_transaction(category, name, amount):
     #Delete the transaction from the database
@@ -365,14 +379,16 @@ def remove_transaction(category, name, amount):
     #Redisplay the transactions
     display_transactions()
     display_categories()
-    
 #Function to handle the button click event to add a transaction
 def handle_add_transaction():
     category = selected_category.get()  #Retrieve the selected category value
     add_transaction(category)
     display_transactions()
-add_transaction_button = tk.Button(budget_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
+add_transaction_button = tk.Button(transaction_frame, text="Add Transaction", font=("Arial", 10), width=11, bg="white", command=handle_add_transaction)
 add_transaction_button.place(x=600, y=340)
+#back button for the transaction screen
+trans_back_button = tk.Button(transaction_frame, text="Back To Budget", font=("Arial", 10), width=11, bg="white", command=lambda: raise_frame(budget_frame))
+trans_back_button.place(x=600, y=100)
 #will initially update the remaining income
 calculate_remaining_income()
 #Display all transactions for each category
