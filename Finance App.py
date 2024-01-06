@@ -63,11 +63,11 @@ budget_title = tk.Label(budget_frame, text="FinTrack", font=("Arial",25), fg="da
 budget_title.place(x=40, y=40, anchor="nw")
 """Income Section"""
 #income
-income_title = tk.Label(budget_frame, text="Income:", font=("Arial", 15), fg="white", bg="darkgreen")
-income_title.place(x=600, y=190)
+income_title = tk.Label(budget_frame, text="Current Income:", font=("Arial", 15), fg="white", bg="darkgreen")
+income_title.place(x=200, y=150)
 #display income
 current_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white",bg="darkgreen")
-current_income_label.place(x=600, y=220)
+current_income_label.place(x=350, y=150)
 #this takes the last inputted income from db and displays it in current income label
 current_income = pd.read_sql('SELECT amount FROM income ORDER BY id DESC LIMIT 1', connection)
 if not current_income.empty:
@@ -124,7 +124,7 @@ def calculate_remaining_income():
     #Calculate the remaining income
     remaining_income = total_income - categories_sum
     #Update the remaining income label
-    remaining_income_label.config(text="Remaining Income: ${:.2f}".format(remaining_income))
+    remaining_income_label.config(text="Left to Budget: ${:.2f}".format(remaining_income))
 #save button
 save_button = tk.Button(budget_frame, text="Save", font=("Arial", 10), width=6, bg="white", command=save_income)
 save_button.place(x=735, y=250)
