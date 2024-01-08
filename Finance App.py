@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
 import sqlite3
+from PIL import Image, ImageTk
 #Initialize database connection
 connection = sqlite3.connect('finance.db')
 #Create ik instance and root frame
@@ -80,7 +81,7 @@ def show_error_message(message):
     messagebox.showerror("Error", message)
 #label to display the remaining income
 remaining_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white", bg="darkgreen")
-remaining_income_label.place(x=600, y=310)
+remaining_income_label.place(x=450, y=150)
 #Function to calculate the remaining income
 def save_income():
     income = income_entry.get().strip()
