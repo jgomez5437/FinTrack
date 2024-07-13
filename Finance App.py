@@ -64,10 +64,10 @@ budget_title.place(x=40, y=40, anchor="nw")
 """Income Section"""
 #income
 income_title = tk.Label(budget_frame, text="Income:", font=("Arial", 15), fg="white", bg="darkgreen")
-income_title.place(x=600, y=190)
+income_title.place(x=650, y=190)
 #display income
 current_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white",bg="darkgreen")
-current_income_label.place(x=600, y=220)
+current_income_label.place(x=650, y=220)
 #this takes the last inputted income from db and displays it in current income label
 current_income = pd.read_sql('SELECT amount FROM income ORDER BY id DESC LIMIT 1', connection)
 if not current_income.empty:
@@ -80,7 +80,7 @@ def show_error_message(message):
     messagebox.showerror("Error", message)
 #label to display the remaining income
 remaining_income_label = tk.Label(budget_frame, text="", font=("Arial", 15), fg="white", bg="darkgreen")
-remaining_income_label.place(x=600, y=310)
+remaining_income_label.place(x=650, y=310)
 #Function to calculate the remaining income
 def save_income():
     income = income_entry.get().strip()
@@ -127,10 +127,10 @@ def calculate_remaining_income():
     remaining_income_label.config(text="Remaining Income: ${:.2f}".format(remaining_income))
 #save button
 save_button = tk.Button(budget_frame, text="Save", font=("Arial", 10), width=6, bg="white", command=save_income)
-save_button.place(x=735, y=250)
+save_button.place(x=785, y=250)
 #Entry for user to enter the income
 income_entry = tk.Entry(budget_frame, width=15)
-income_entry.place(x=600, y=250)
+income_entry.place(x=650, y=250)
 income_entry.bind("<Return>", save_income)
 #Function that will hide and show the income entry and save button
 def toggle_income_entry():
@@ -139,12 +139,12 @@ def toggle_income_entry():
         save_button.place_forget()
         income_button.config(text="Edit Income")
     else:
-        income_entry.place(x=600, y=250)
-        save_button.place(x=735, y=250)
+        income_entry.place(x=650, y=250)
+        save_button.place(x=785, y=250)
         income_button.config(text="Hide")
 #Income save/hide button
 income_button = tk.Button(budget_frame, text="Hide", font=("Arial", 10), width=8, bg="white", command=toggle_income_entry)
-income_button.place(x=600, y=280)
+income_button.place(x=650, y=280)
 """Category Section"""
 #Category frame
 category_frame = tk.Frame(budget_frame, bg="darkgreen")
@@ -356,8 +356,8 @@ def add_transaction(category):
 transaction_display = scrolledtext.ScrolledText(transaction_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
 transaction_display.place(x=100, y=80)
 #Button to move to transactions frame
-transaction_frame_b = tk.Button(budget_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", command=lambda: raise_frame(transaction_frame))
-transaction_frame_b.place(x=600, y=410)
+transaction_frame_b = tk.Button(budget_frame, text="Transactions", font=("Arial", 10), width=10, bg="white", padx=10, pady=5, command=lambda: raise_frame(transaction_frame))
+transaction_frame_b.place(x=840, y=50)
 #Function to remove transactions
 def remove_transaction(category, name, amount):
     #Delete the transaction from the database
