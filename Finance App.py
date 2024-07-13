@@ -196,49 +196,39 @@ def update_transaction_options():
     menu.delete(0, "end")
     for name in category_names:
         menu.add_command(label=name, command=lambda value=name: selected_category.set(value))
-        
+
+#category scroll
+category_display = scrolledtext.ScrolledText(budget_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
+category_display.place(x=100, y=100)
+
 #Function to display the budget categories
 def display_categories():
-    #Remove any existing category labels and buttons
-    for label, budget_label, spending_label, remove_button in category_labels:
-        label.destroy()
-        budget_label.destroy()
-        spending_label.destroy()
-        remove_button.destroy()
-    category_labels.clear()
+    #Clears existing transactions
+    category_display.delete('1.0', tk.END)
     #Fetch the budget categories from the database
     categories = pd.read_sql('SELECT name, amount FROM budget_category', connection)
     #Create labels for each category
-    for i, row in categories.iterrows():
+    for _, row in categories.iterrows():
         category_name = row['name']
-        label = tk.Label(category_frame, text=category_name, font=("Arial", 15), fg="white", bg="darkgreen", width=10, wraplength=100)
-        label.grid(column=0, row=i, padx=10, pady=10)
-        #Create a label for the budget amount
-        budget_label = tk.Label(category_frame, text="Budget: ${:.2f}".format(row['amount']), font=("Arial", 12), fg="white", bg="darkgreen")
-        budget_label.grid(column=1, row=i, padx=10, pady=10)
+        amount = row['amount']
+        category_display.insert(tk.END, "  {}  |  Amount: {:.2f}  ".format(category_name, amount))
         #Calculate the total spending for the category
         total_spending = get_total_category_spending(category_name)
         #Calculate the remaining budget for the category
         remaining_budget = row['amount'] - total_spending
         #Create a separate label to display the spending and remaining budget for each category
         remaining_budget_var = tk.StringVar()
-        spending_label = tk.Label(category_frame,textvariable=remaining_budget_var,font=("Arial", 12), fg="white", bg="darkgreen")
-        spending_label.grid(column=2, row=i, padx=10, pady=10)
         # Calculate the remaining budget for the category
         remaining_budget_var.set("Remaining: ${:.2f}".format(remaining_budget))
         #Create a remove button for each category
-        remove_button = tk.Button(category_frame, text="Remove", font=("Arial", 10), width=6, bg="white", command=lambda name=category_name: remove_category(name))
-        remove_button.grid(column=4, row=i, padx=10, pady=10)
-        #Adds the information tot he category_labels list
-        category_labels.append((label, budget_label, spending_label, remove_button))
+        remove_button = tk.Button(budget_frame, text="Remove", font=("Arial", 7), width=3, bg="white", command=lambda name=category_name: remove_category(name))
+        #add remove button and make new line
+        category_display.window_create(tk.END, window=remove_button)
+        category_display.insert(tk.END, "\n")
     #Update the dropdown menu options for transactions
     update_transaction_options()
 #display the budget categories when the program starts
 display_categories()
-
-#category scroll
-category_display = scrolledtext.ScrolledText(category_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
-category_display.place(x=100, y=100)
 
 #Function that saves the category and adds to the database
 def save_category(category, amount_entry, category_label, amount_label):
@@ -283,8 +273,8 @@ def add_category_amount():
     amount_entry.grid(column=3, row=category_entry_row, padx=10, pady=10)
     amount_entry.bind("<Return>", lambda event: save_category(category, amount_entry, category_label, amount_label))
 #create the "Add Category" button
-add_category_button = tk.Button(budget_frame, text="Add Category", font=("Arial", 10), width=10, bg="white", command=add_category)
-add_category_button.place(x=90, y=150)
+add_category_button = tk.Button(budget_frame, text="Add Category", font=("Arial", 10), width=8, bg="white", command=add_category)
+add_category_button.place(x=10, y=150)
 """Transactions Section"""
 #Transaction name label
 transaction_name_label = tk.Label(transaction_frame, text="Transaction Name:", font=("Arial", 15), fg="white", bg="darkgreen")
