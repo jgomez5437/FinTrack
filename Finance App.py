@@ -236,6 +236,10 @@ def display_categories():
 #display the budget categories when the program starts
 display_categories()
 
+#category scroll
+category_display = scrolledtext.ScrolledText(category_frame, font=("Arial", 12), fg="white", bg="darkgreen", width=45, height=24)
+category_display.place(x=100, y=100)
+
 #Function that saves the category and adds to the database
 def save_category(category, amount_entry, category_label, amount_label):
     amount = amount_entry.get().strip()
