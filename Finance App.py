@@ -211,15 +211,14 @@ def display_categories():
     for _, row in categories.iterrows():
         category_name = row['name']
         amount = row['amount']
-        category_display.insert(tk.END, "  {}  |  Amount: {:.2f}  ".format(category_name, amount))
         #Calculate the total spending for the category
         total_spending = get_total_category_spending(category_name)
-        #Calculate the remaining budget for the category
         remaining_budget = row['amount'] - total_spending
         #Create a separate label to display the spending and remaining budget for each category
         remaining_budget_var = tk.StringVar()
         # Calculate the remaining budget for the category
         remaining_budget_var.set("Remaining: ${:.2f}".format(remaining_budget))
+        category_display.insert(tk.END, "  {}  |  Budget: {:.2f}  |  Remaining: {:.2f}".format(category_name, amount, remaining_budget))
         #Create a remove button for each category
         remove_button = tk.Button(budget_frame, text="Remove", font=("Arial", 7), width=3, bg="white", command=lambda name=category_name: remove_category(name))
         #add remove button and make new line
